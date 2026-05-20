@@ -17,7 +17,8 @@ def chatbot():
         "danke": "Sehr gerne",
         "nichts": "Ok",
         "viel": "Und was genau?",
-        "gut": "Schön"
+        "gut": "Schön",
+
     }
 
 
@@ -27,7 +28,7 @@ def chatbot():
 
         user = input(">>> ").lower().replace(" ", "").replace("?", "")
 
-        if user == "ende":
+        if user == "exit":
             print("Tschüss!")
             break
         if user == "time":
