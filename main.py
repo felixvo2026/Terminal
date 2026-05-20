@@ -59,7 +59,7 @@ commands = {
     },
     "help": {
         "function": help,
-        "description": "Show help message"
+        "description": "Show help message for all commands"
     },
     "calculator": {
         "function": Calculator.Calculator,
