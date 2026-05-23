@@ -13,6 +13,8 @@ def load_passwords():
 def save_passwords():
     with open("Json-Daten/password.json", "w", encoding="utf-8") as file:
         json.dump(passwords, file, indent=4, ensure_ascii=False)
+    with open("Backup/Json-Daten/password.json", "w", encoding="utf-8") as file:
+        json.dump(passwords, file, indent=4, ensure_ascii=False)
 
 def register():
     global passwords

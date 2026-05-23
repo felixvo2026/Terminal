@@ -11,6 +11,8 @@ def load_notes():
 def save_notes():
     with open("Json-Daten/notes.json", "w", encoding="utf-8") as file:
         json.dump(notes, file, indent=4, ensure_ascii=False)
+    with open("Backup/Json-Daten/notes.json", "w", encoding="utf-8") as file:
+        json.dump(notes, file, indent=4, ensure_ascii=False)
 
 def NotesAdd():
     global notes
