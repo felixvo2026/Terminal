@@ -64,7 +64,7 @@ def english():
 
     while True:
 
-        user = input(">>> ").lower().replace(" ", "").replace("?", "")
+        user = input(">>> ").lower().replace(" ", "").replace("?", "").replace("'", "a")
 
         if user == "end":
             print("Goodbye!")
