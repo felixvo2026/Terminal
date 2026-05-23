@@ -48,7 +48,9 @@ def english():
         "whatareyou": "A Python chatbot",
         "whatcanyoudo": "I can answer simple questions.",
         "howareyou": "I'm doing well. How are you?",
-        "iamfine": "Very nice. What are you planning to do today?"
+        "iamfine": "Very nice. What are you planning to do today?",
+        "iamwell": "Okay, Why?",
+        "iamsad": "Why are you sad?",
     }
 
     short_messages = {
