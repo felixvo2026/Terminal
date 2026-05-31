@@ -13,6 +13,9 @@ def Premium():
             if commando == "ccal":
                 Calculator.Calculator()
                 continue
+            if commando == "h":
+                print(1/0)
+                continue
 
             commandos[commando]["function"]()
         except KeyError:
@@ -58,15 +61,15 @@ commandos = {
         "description": "Show help message"
     },
     "notesadd": {
-        "function": Notes.NotesAdd,
+        "function": Notes.nm.NotesAdd,
         "description": "Add notes"
     },
     "notesremove": {
-        "function": Notes.NotesRemove,
+        "function": Notes.nm.NotesRemove,
         "description": "Remove notes"
     },
     "notesshow": {
-        "function": Notes.NotesShow,
+        "function": Notes.nm.NotesShow,
         "description": "Show notes"
     },
     "calculator": {

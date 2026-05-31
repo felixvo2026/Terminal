@@ -1,51 +1,61 @@
 import json
+import atexit
 
+class Note:
+    def __init__(self, title, text):
+        self.title = title
+        self.text = text
 
-def load_notes():
-    try:
-        with open("Json-Daten/notes.json", "r", encoding="utf-8") as file:
-            return json.load(file)
-    except FileNotFoundError:
-        return {}
+    def save(self, notes):
+        notes[self.title] = self.text
 
-def save_notes():
-    with open("Json-Daten/notes.json", "w", encoding="utf-8") as file:
-        json.dump(notes, file, indent=4, ensure_ascii=False)
-    with open("Backup/Json-Daten/notes.json", "w", encoding="utf-8") as file:
-        json.dump(notes, file, indent=4, ensure_ascii=False)
+class NotesManager:
+    def __init__(self):
+        self.notes = self.load_notes()
 
-def NotesAdd():
-    global notes
+    def load_notes(self):
+        try:
+            with open("Json-Daten/notes.json", "r", encoding="utf-8") as file:
+                return json.load(file)
+        except FileNotFoundError:
+            return {}
 
-    title = input("title: ")
-    if title in notes:
-        print("Notiz schon vorhanden!")
-        return
-    text = input("text: ")
-    notes[title] = text
-    save_notes()
-    print("✔ Saved")
+    def save_notes(self):
+        with open("Json-Daten/notes.json", "w", encoding="utf-8") as file:
+            json.dump(self.notes, file, indent=4, ensure_ascii=False)
+        with open("Backup/Json-Daten/notes.json", "w", encoding="utf-8") as file:
+            json.dump(self.notes, file, indent=4, ensure_ascii=False)
 
-def NotesRemove():
-    global notes
-    title = input("Which note to delete?")
-    if title == "all":
-        notes.clear()
-        save_notes()
-        print("✔ Deleted")
-    elif title in notes:
-        del notes[title]
-        save_notes()
-        print("✔ Deleted")
-    else:
-        print("❌ not found")
+    def NotesAdd(self):
+        title = input("title: ")
+        if title in self.notes:
+            print("Notiz schon vorhanden!")
+            return
+        text = input("text: ")
+        note = Note(title, text)
+        note.save(self.notes)
+        self.save_notes()
+        print("✔ Saved")
 
-def NotesShow():
-    global notes
-    if not notes:
-        print("No notes available.")
-    else:
-        for title, text in notes.items():
-            print(f"{title}: {text}")
+    def NotesRemove(self):
+        title = input("Which note to delete?")
+        if title == "all":
+            self.notes.clear()
+            self.save_notes()
+            print("✔ Deleted")
+        elif title in notes:
+            del self.notes[title]
+            self.save_notes()
+            print("✔ Deleted")
+        else:
+            print("❌ not found")
 
-notes = load_notes()
+    def NotesShow(self):
+        if not self.notes:
+            print("No notes available.")
+        else:
+            for title, text in self.notes.items():
+                print(f"{title}: {text}")
+
+atexit.register(NotesManager.save_notes)
+nm = NotesManager()
