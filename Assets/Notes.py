@@ -43,7 +43,7 @@ class NotesManager:
             self.notes.clear()
             self.save_notes()
             print("✔ Deleted")
-        elif title in notes:
+        elif title in self.notes:
             del self.notes[title]
             self.save_notes()
             print("✔ Deleted")
@@ -57,5 +57,6 @@ class NotesManager:
             for title, text in self.notes.items():
                 print(f"{title}: {text}")
 
-atexit.register(NotesManager.save_notes)
+
 nm = NotesManager()
+atexit.register(nm.save_notes)
