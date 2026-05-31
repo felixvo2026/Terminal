@@ -13,9 +13,6 @@ def Premium():
             if commando == "ccal":
                 Calculator.Calculator()
                 continue
-            if commando == "h":
-                print(1/0)
-                continue
 
             commandos[commando]["function"]()
         except KeyError:
