@@ -1,5 +1,6 @@
 import json
 import time
+import hashlib
 from Assets import Calculator
 from Assets import Premium
 
@@ -30,7 +31,8 @@ class PasswordManager:
             return
         fftpremiumpassword = input("Premium Password: ")
         if fftpremiumpassword == "f  FTTerminal":
-            self.passwords[username] = password
+            hashed_password = self.hash_password(password)
+            self.passwords[username] = hashed_password
             self.save_passwords()
             print("Saved")
             while True:
@@ -41,12 +43,17 @@ class PasswordManager:
     def login(self):
         username = input("Username: ")
         password = input("Password: ")
-        if username in self.passwords and self.passwords[username] == password:
+        if username in self.passwords and self.passwords[username] == self.hash_password(password):
             print("Logged in")
             while True:
                 self.premium.run()
         else:
             print("Falscher Benutzername oder Passwort.")
+
+    def hash_password(self, password):
+        hasher = hashlib.sha256()
+        hasher.update(password.encode("utf-8"))
+        return hasher.hexdigest()
 
 
 
