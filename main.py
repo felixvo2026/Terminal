@@ -48,57 +48,63 @@ class PasswordManager:
             print("Falscher Benutzername oder Passwort.")
 
 
-def Exit():
-    print("Program is terminating...")
-    quit()
 
-def help():
-    for c in commands:
-        print(f"-{c}: {commands[c]["description"]}")
-
-def ShowTime():
-    now = time.localtime()
-    print(f"date: {now.tm_mday}.{now.tm_mon}.{now.tm_year}")
-    print(f"time: {now.tm_hour}:{now.tm_min}:{now.tm_sec}")
-
-
-commands = {
-    "exit": {
-        "function": Exit,
-        "description": "Exit program"
-    },
-    "help": {
-        "function": help,
-        "description": "Show help message for all commands"
-    },
-    "calculator": {
-        "function": Calculator.Calculator,
-        "description": "Calculator"
-    },
-    "login": {
-        "function": login,
-        "description": "Login"
-    },
-    "register": {
-        "function": register,
-        "description":"Register"
-    },
-    "time":{
-        "function": ShowTime,
-        "description": "Show time"
+class Main:
+    def __init__(self):
+        self.pm = PasswordManager()
+        self.commands = {
+        "exit": {
+            "function": self.Exit,
+            "description": "Exit program"
+        },
+        "help": {
+            "function": self.help,
+            "description": "Show help message for all commands"
+        },
+        "calculator": {
+            "function": Calculator.Calculator,
+            "description": "Calculator"
+        },
+        "login": {
+            "function": self.pm.login,
+            "description": "Login"
+        },
+        "register": {
+            "function": self.pm.register,
+            "description":"Register"
+        },
+        "time":{
+            "function": self.ShowTime,
+            "description": "Show time"
+        }
     }
-}
+
+    def Exit(self):
+        print("Program is terminating...")
+        quit()
+
+    def help(self):
+        for c in self.commands:
+            print(f"-{c}: {self.commands[c]["description"]}")
+
+    def ShowTime(self):
+        now = time.localtime()
+        print(f"date: {now.tm_mday}.{now.tm_mon}.{now.tm_year}")
+        print(f"time: {now.tm_hour}:{now.tm_min}:{now.tm_sec}")
+
+    def run(self):
+        while True:
+            command = input("> ").lower().replace(" ", "")
+            try:
+                if command == "ccal":
+                    Calculator.Calculator()
+                    continue
+                self.commands[command]["function"]()
+            except KeyError:
+                print(f"Invalid command: {command}")
 
 
 
-while True:
-    command = input("> ").lower().replace(" ", "")
-    try:
-        if command == "ccal":
-            Calculator.Calculator()
-            continue
-        commands[command]["function"]()
-    except KeyError:
-        print(f"Invalid command: {command}")
-
-
+main = Main()
+#pw = PasswordManager()
+main.run()
