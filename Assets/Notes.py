@@ -58,5 +58,5 @@ class NotesManager:
                 print(f"{title}: {text}")
 
 
-nm = NotesManager()
-atexit.register(nm.save_notes)
+#nm = NotesManager()
+#atexit.register(nm.save_notes)

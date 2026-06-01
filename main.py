@@ -7,6 +7,7 @@ from Assets import Premium
 class PasswordManager:
     def __init__(self):
         self.passwords = self.load_passwords()
+        self.premium = Premium.Premium()
 
     def load_passwords(self):
         try:
@@ -33,7 +34,7 @@ class PasswordManager:
             self.save_passwords()
             print("Saved")
             while True:
-                Premium.Premium()
+                self.premium.run()
         else:
             print("Zugang wurde verweigert")
 
@@ -43,7 +44,7 @@ class PasswordManager:
         if username in self.passwords and self.passwords[username] == password:
             print("Logged in")
             while True:
-                Premium.Premium()
+                self.premium.run()
         else:
             print("Falscher Benutzername oder Passwort.")
 
@@ -85,7 +86,7 @@ class Main:
 
     def help(self):
         for c in self.commands:
-            print(f"-{c}: {self.commands[c]["description"]}")
+            print(f'-{c}: {self.commands[c]["description"]}')
 
     def ShowTime(self):
         now = time.localtime()
@@ -106,5 +107,4 @@ class Main:
 
 
 main = Main()
-#pw = PasswordManager()
 main.run()
