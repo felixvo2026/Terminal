@@ -3,41 +3,49 @@ import time
 from Assets import Calculator
 from Assets import Premium
 
-def load_passwords():
-    try:
-        with open("Json-Daten/password.json", "r", encoding="utf-8") as file:
-            return json.load(file)
-    except FileNotFoundError:
-        return {}
 
-def save_passwords():
-    with open("Json-Daten/password.json", "w", encoding="utf-8") as file:
-        json.dump(passwords, file, indent=4, ensure_ascii=False)
-    with open("Backup/Json-Daten/password.json", "w", encoding="utf-8") as file:
-        json.dump(passwords, file, indent=4, ensure_ascii=False)
+class PasswordManager:
+    def __init__(self):
+        self.passwords = self.load_passwords()
 
-def register():
-    global passwords
-    username = input("Username: ")
-    password = input("Password: ")
-    fftpremiumpassword = input("Premium Password: ")
-    if fftpremiumpassword == "f  FTTerminal":
-        passwords[username] = password
-        save_passwords()
-        print("Saved")
-        while True:
-            Premium.Premium()
-    else:
-        print("Zugang wurde verweigert")
+    def load_passwords(self):
+        try:
+            with open("Json-Daten/password.json", "r", encoding="utf-8") as file:
+                return json.load(file)
+        except FileNotFoundError:
+            return {}
 
-def login():
-    global passwords
-    username = input("Username: ")
-    password = input("Password: ")
-    if username in passwords and passwords[username] == password:
-        print("Logged in")
-        while True:
-            Premium.Premium()
+    def save_passwords(self):
+        with open("Json-Daten/password.json", "w", encoding="utf-8") as file:
+            json.dump(self.passwords, file, indent=4, ensure_ascii=False)
+        with open("Backup/Json-Daten/password.json", "w", encoding="utf-8") as file:
+            json.dump(self.passwords, file, indent=4, ensure_ascii=False)
+
+    def register(self):
+        username = input("Username: ")
+        password = input("Password: ")
+        if username in self.passwords:
+            print("Benutzer existiert bereits.")
+            return
+        fftpremiumpassword = input("Premium Password: ")
+        if fftpremiumpassword == "f  FTTerminal":
+            self.passwords[username] = password
+            self.save_passwords()
+            print("Saved")
+            while True:
+                Premium.Premium()
+        else:
+            print("Zugang wurde verweigert")
+
+    def login(self):
+        username = input("Username: ")
+        password = input("Password: ")
+        if username in self.passwords and self.passwords[username] == password:
+            print("Logged in")
+            while True:
+                Premium.Premium()
+        else:
+            print("Falscher Benutzername oder Passwort.")
 
 
 def Exit():
@@ -81,7 +89,7 @@ commands = {
     }
 }
 
-passwords = load_passwords()
+
 
 while True:
     command = input("> ").lower().replace(" ", "")
