@@ -112,6 +112,5 @@ class Main:
                 print(f"Invalid command: {command}")
 
 
-
 main = Main()
 main.run()

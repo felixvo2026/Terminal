@@ -8,6 +8,7 @@ from Assets import KI_Chatbot
 class Premium:
     def __init__(self):
         self.nm = Notes.NotesManager()
+        self.ki = KI_Chatbot.Ki_Chatbot()
         self.commandos = {
             "exit": {
                 "function": self.Exit,
@@ -42,7 +43,7 @@ class Premium:
                 "description": "Show time"
             },
             "chatbot": {
-                "function": KI_Chatbot.chatbot,
+                "function": self.ki.run,
                 "description": "Chatbot"
             },
             "fftcwd": {
