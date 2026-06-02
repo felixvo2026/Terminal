@@ -1,15 +1,15 @@
 import math
 
 def Calculator():
-    rechnung = input("> calculation: ").replace(",",".")
+    rechnung = input("> calculation: ").replace(",",".").replace(" ","")
 
     try:
         for zeichen in rechnung:
-            if zeichen not in "0123456789+-*/().√sqrtpi":
+            if zeichen not in "0123456789+-*/().sqrtpi":
                 raise ValueError
 
         result = eval(rechnung,{"__builtins__": None}, {"sqrt": math.sqrt, "pi": math.pi})
-        print(result)
+        print(f" = {result}")
 
     except ZeroDivisionError:
         print("❌ Division by zero")
