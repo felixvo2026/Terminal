@@ -6,7 +6,6 @@ class Ki_Chatbot:
             "english": self.english,
             "deutsch": self.deutsch,
         }
-        self.gefunden = False
 
     def deutsch(self):
         antworten = {
@@ -37,7 +36,7 @@ class Ki_Chatbot:
                 print("Tschüss!")
                 break
             if user == "time":
-                nowtime()
+                self.nowtime()
                 continue
 
             if user in antworten:
@@ -80,7 +79,7 @@ class Ki_Chatbot:
                 break
 
             if user == "time":
-                nowtime()
+                self.nowtime()
                 continue
 
             if user in answers:

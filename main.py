@@ -1,6 +1,6 @@
 import json
 import time
-import bcrypt  # ← HINZUFÜGEN!
+import bcrypt
 from Assets import Calculator
 from Assets import Premium
 
