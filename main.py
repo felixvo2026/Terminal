@@ -46,20 +46,18 @@ class PasswordManager:
             print("❌ Benutzer existiert bereits.")
             return
 
+        if username.endswith("!"):
+            print("❌ Benutzername nicht möglich!")
+            return
+
         password = input("Password: ").strip()
 
-
-        fftpremiumpassword = input("Premium Password: ")
-
-        if fftpremiumpassword == "f  FTTerminal":
-            hashed_password = self.hash_password(password)
-            self.passwords[username] = hashed_password
-            self.save_passwords()
-            print("✅ Registrierung erfolgreich!")
-            while True:
-                self.premium.run()
-        else:
-            print("❌ Zugang wurde verweigert")
+        hashed_password = self.hash_password(password)
+        self.passwords[username] = hashed_password
+        self.save_passwords()
+        print("✅ Registrierung erfolgreich!")
+        while True:
+            self.premium.run()
 
     def login(self):
         username = input("Username: ").strip()
@@ -76,6 +74,55 @@ class PasswordManager:
         else:
             print("❌ Falscher Benutzername oder Passwort.")
 
+    def admin_register(self):
+        username = input("Username: ").strip()
+
+        if not username:
+            print("❌ Username darf nicht leer sein!")
+            return
+
+        if username in self.passwords:
+            print("❌ Benutzer existiert bereits.")
+            return
+
+        password = input("Password: ").strip()
+        admin_password = input("Admin Password: ").strip()
+        if admin_password == "f  FTTerminal":
+            username += "!"
+            hashed_password = self.hash_password(password)
+            self.passwords[username] = hashed_password
+            self.save_passwords()
+            print("✅ Registrierung erfolgreich!")
+            while True:
+                self.premium.run()
+
+    def admin_login(self):
+        username = input("Username: ").strip()
+        password = input("Password: ").strip()
+        try:
+            breakpoint()
+            username += "!"
+            if self.check_password(password, self.passwords[username]):
+                print("✅ Login erfolgreich!")
+                while True:
+                    self.premium.run()
+            else:
+                print("❌ Falscher Benutzername oder Passwort.")
+        except Exception as e:
+            print(f"Error: {e}")
+
+    def change_password(self):
+        username = input("Username: ").strip()
+        password = input("Password: ").strip()
+        if not self.check_password(password, self.passwords[username]) and not username.endswith("!"):
+            print("Access denied!")
+            return
+        else:
+            new_password = input("New Password: ").strip()
+            new_hashed_password = self.hash_password(new_password)
+            self.passwords[username] = new_hashed_password
+            print("✅ Password changed successfully")
+            self.save_passwords()
 
 class Main:
     def __init__(self):
@@ -100,6 +147,18 @@ class Main:
             "register": {
                 "function": self.pm.register,
                 "description": "Register"
+            },
+            "admin_register": {
+                "function": self.pm.admin_register,
+                "description": "Admin register"
+            },
+            "admin_login": {
+                "function": self.pm.admin_login,
+                "description": "Admin login"
+            },
+            "change_password": {
+                "function": self.pm.change_password,
+                "description": "Change password"
             },
             "time": {
                 "function": self.ShowTime,
@@ -134,3 +193,5 @@ class Main:
 
 main = Main()
 main.run()
+
+#Admin mit User löschen, Passwort ändern
