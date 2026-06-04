@@ -18,16 +18,6 @@ Ein professionelles Terminal-Programm mit OOP, Sicherheit & mehrsprachigem Chatb
 - **Architecture:** Object-Oriented Programming (OOP)
 - **Data Storage:** JSON mit automatischen Backups
 
-## 🚀 Wie man es benutzt
-Code
-> register        # Neuen Account erstellen
-> login           # Einloggen
->> notesadd       # Notiz hinzufügen
->> chatbot        # Chatbot starten
->> time           # Uhrzeit anzeigen
->> exit           # Beenden
-
-
 ## 🏗️ Architektur
 Code
 Terminal/
