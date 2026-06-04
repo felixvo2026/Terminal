@@ -37,7 +37,7 @@ class PasswordManager:
 
     def register(self):
         username = input("Username: ").strip()
-
+        #breakpoint()
         if not username:
             print("❌ Username darf nicht leer sein!")
             return
@@ -46,14 +46,12 @@ class PasswordManager:
             print("❌ Benutzer existiert bereits.")
             return
 
-        if username.endswith("!"):
-            print("❌ Benutzername nicht möglich!")
-            return
-
         password = input("Password: ").strip()
 
         hashed_password = self.hash_password(password)
-        self.passwords[username] = hashed_password
+        self.passwords[username] = {
+            "password" : hashed_password,
+            "role" : "user"}
         self.save_passwords()
         print("✅ Registrierung erfolgreich!")
         while True:
@@ -67,7 +65,7 @@ class PasswordManager:
             print("❌ Benutzer nicht gefunden!")
             return
 
-        if self.check_password(password, self.passwords[username]):
+        if self.check_password(password, self.passwords[username]["password"]):
             print("✅ Login erfolgreich!")
             while True:
                 self.premium.run()
@@ -88,9 +86,10 @@ class PasswordManager:
         password = input("Password: ").strip()
         admin_password = input("Admin Password: ").strip()
         if admin_password == "f  FTTerminal":
-            username += "!"
             hashed_password = self.hash_password(password)
-            self.passwords[username] = hashed_password
+            self.passwords[username] = {
+                "password": hashed_password,
+                "role": "admin"}
             self.save_passwords()
             print("✅ Registrierung erfolgreich!")
             while True:
@@ -100,8 +99,10 @@ class PasswordManager:
         username = input("Username: ").strip()
         password = input("Password: ").strip()
         try:
-            username += "!"
-            if self.check_password(password, self.passwords[username]):
+            if self.passwords[username]["role"] != "admin":
+                print("Access denied")
+                return
+            if self.check_password(password, self.passwords[username]["password"]):
                 print("✅ Login erfolgreich!")
                 while True:
                     self.premium.run()
@@ -113,18 +114,20 @@ class PasswordManager:
     def change_password(self):
         username = input("Username: ").strip()
         password = input("Password: ").strip()
-        username += "!"
         try:
             if username not in self.passwords:
                 print("Access denied!")
                 return
-            if not self.check_password(password, self.passwords[username]):
-                print("Access denied!")
-                return
+            is_admin = self.passwords[username]["role"] == "admin"
+
+            if not is_admin:
+                if not self.check_password(password, self.passwords[username]["password"]):
+                    print("Access denied")
+                    return
             else:
                 new_password = input("New Password: ").strip()
                 new_hashed_password = self.hash_password(new_password)
-                self.passwords[username] = new_hashed_password
+                self.passwords[username]["password"] = new_hashed_password
                 print("✅ Password changed successfully")
                 self.save_passwords()
         except Exception as e:
