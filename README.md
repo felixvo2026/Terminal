@@ -18,15 +18,6 @@ Ein professionelles Terminal-Programm mit OOP, Sicherheit & mehrsprachigem Chatb
 - **Architecture:** Object-Oriented Programming (OOP)
 - **Data Storage:** JSON mit automatischen Backups
 
-## 📦 Installation
-
-```bash
-git clone https://github.com/felixvo2026/Terminal.git
-cd Terminal
-pip install bcrypt
-python main.py
-```bash
-
 ##🚀 Wie man es benutzt
 Code
 > register        # Neuen Account erstellen
@@ -60,3 +51,11 @@ Mehrsprachige Programme
 
 ##👨‍💻 Autor
 Felix - 12 Jahre - Learning Python & Security 🚀
+
+## 📦 Installation
+
+```bash
+git clone https://github.com/felixvo2026/Terminal.git
+cd Terminal
+pip install bcrypt
+python main.py
