@@ -100,7 +100,6 @@ class PasswordManager:
         username = input("Username: ").strip()
         password = input("Password: ").strip()
         try:
-            breakpoint()
             username += "!"
             if self.check_password(password, self.passwords[username]):
                 print("✅ Login erfolgreich!")
@@ -114,15 +113,22 @@ class PasswordManager:
     def change_password(self):
         username = input("Username: ").strip()
         password = input("Password: ").strip()
-        if not self.check_password(password, self.passwords[username]) and not username.endswith("!"):
-            print("Access denied!")
-            return
-        else:
-            new_password = input("New Password: ").strip()
-            new_hashed_password = self.hash_password(new_password)
-            self.passwords[username] = new_hashed_password
-            print("✅ Password changed successfully")
-            self.save_passwords()
+        username += "!"
+        try:
+            if username not in self.passwords:
+                print("Access denied!")
+                return
+            if not self.check_password(password, self.passwords[username]):
+                print("Access denied!")
+                return
+            else:
+                new_password = input("New Password: ").strip()
+                new_hashed_password = self.hash_password(new_password)
+                self.passwords[username] = new_hashed_password
+                print("✅ Password changed successfully")
+                self.save_passwords()
+        except Exception as e:
+            print(f"Error: {e}")
 
 class Main:
     def __init__(self):
@@ -186,6 +192,7 @@ class Main:
                 if command == "ccal":
                     Calculator.Calculator()
                     continue
+
                 self.commands[command]["function"]()
             except KeyError:
                 print(f"Invalid command: {command}")
