@@ -25,9 +25,9 @@ git clone https://github.com/felixvo2026/Terminal.git
 cd Terminal
 pip install bcrypt
 python main.py
+'''bash
 
-
-🚀 Wie man es benutzt
+##🚀 Wie man es benutzt
 Code
 > register        # Neuen Account erstellen
 > login           # Einloggen
@@ -37,7 +37,7 @@ Code
 >> exit           # Beenden
 
 
-🏗️ Architektur
+##🏗️ Architektur
 Code
 Terminal/
 ├── main.py              (PasswordManager + Main Klasse)
@@ -48,7 +48,7 @@ Terminal/
 │   └── Calculator.py   (Calculator)
 └── Json-Daten/         (Daten + Backup)
 
-🔒 Sicherheit
+##🔒 Sicherheit
 ✅ bcrypt Password Hashing - Passwörter sind NICHT im Klartext gespeichert ✅ Automatische Backups - Daten sind doppelt gespeichert ✅ Salt-basiertes Hashing - Jedes Passwort hat eigenen Salt
 
 📚 Was ich gelernt habe
@@ -58,5 +58,5 @@ JSON Datenspeicherung
 Git & GitHub Workflows
 Mehrsprachige Programme
 
-👨‍💻 Autor
+##👨‍💻 Autor
 Felix - 12 Jahre - Learning Python & Security 🚀
