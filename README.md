@@ -31,13 +31,13 @@ Code
 ## 🏗️ Architektur
 Code
 Terminal/
-├── main.py              (PasswordManager + Main Klasse)
+├── main.py             
 ├── Assets/
-│   ├── Notes.py        (NotesManager Klasse)
-│   ├── Premium.py      (Premium Klasse)
-│   ├── KI_Chatbot.py   (Ki_Chatbot Klasse)
-│   └── Calculator.py   (Calculator)
-└── Json-Daten/         (Daten + Backup)
+│   ├── Notes.py        
+│   ├── Premium.py     
+│   ├── KI_Chatbot.py   
+│   └── Calculator.py   
+└── Json-Daten/         
 
 ## 🔒 Sicherheit
 ✅ bcrypt Password Hashing - Passwörter sind NICHT im Klartext gespeichert ✅ Automatische Backups - Daten sind doppelt gespeichert ✅ Salt-basiertes Hashing - Jedes Passwort hat eigenen Salt
