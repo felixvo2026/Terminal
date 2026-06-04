@@ -25,7 +25,7 @@ git clone https://github.com/felixvo2026/Terminal.git
 cd Terminal
 pip install bcrypt
 python main.py
-'''bash
+```bash
 
 ##🚀 Wie man es benutzt
 Code
