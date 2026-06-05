@@ -153,6 +153,9 @@ class PasswordManager:
                 if delete_user not in self.passwords:
                     print("User not found")
                     return
+                elif delete_user == username:
+                    print("You cannot delete yourself")
+                    return
                 else:
                     del self.passwords[delete_user]
                     self.save_passwords()
@@ -227,6 +230,9 @@ class Main:
         if not self.history:
             print("No commands available")
             return
+        if self.history[-1] == "ccal":
+            Calculator.Calculator()
+            return
         self.commands[self.history[-1]]["function"]()
 
     def Exit(self):
@@ -261,3 +267,4 @@ class Main:
 main = Main()
 main.run()
 
+# current User und Verbesserung von logout
