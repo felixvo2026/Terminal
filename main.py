@@ -124,12 +124,12 @@ class PasswordManager:
                 if not self.check_password(password, self.passwords[username]["password"]):
                     print("Access denied")
                     return
-            else:
-                new_password = input("New Password: ").strip()
-                new_hashed_password = self.hash_password(new_password)
-                self.passwords[username]["password"] = new_hashed_password
-                print("✅ Password changed successfully")
-                self.save_passwords()
+
+            new_password = input("New Password: ").strip()
+            new_hashed_password = self.hash_password(new_password)
+            self.passwords[username]["password"] = new_hashed_password
+            print("✅ Password changed successfully")
+            self.save_passwords()
         except Exception as e:
             print(f"Error: {e}")
 
@@ -143,12 +143,8 @@ class PasswordManager:
             is_admin = self.passwords[username]["role"] == "admin"
 
             if not is_admin:
-                if not self.check_password(password, self.passwords[username]["password"]):
-                    print("Access denied")
-                    return
-                else:
-                    print("Acess denied")
-                    return
+                print("Acess denied")
+                return
             else:
                 delete_user = input("Which User do you want do delete: ").strip()
                 if delete_user not in self.passwords:
@@ -165,7 +161,7 @@ class PasswordManager:
 
 class Main:
     def __init__(self):
-        #self.history = []
+        self.history = []
         self.pm = PasswordManager()
         self.commands = {
             "exit": {
@@ -204,18 +200,18 @@ class Main:
                 "function": self.ShowTime,
                 "description": "Show time"
             },
-            #"last": {
-                #"function": self.last,
-                #"description": "Last command"
-            #}
+            "last": {
+                "function": self.last,
+                "description": "Last command"
+            },
             "del_user": {
                 "function": self.pm.user_delete,
                 "description": "Delete user"
             }
         }
 
-    #def last(self):
-        #print("Last command:", self.history[:-1])
+    def last(self):
+        print("Last command:", self.history[-1])
     def Exit(self):
         print("Program is terminating...")
         quit()
@@ -238,7 +234,7 @@ class Main:
                     continue
 
                 self.commands[command]["function"]()
-                #
+                self.history.append(command)
             except KeyError:
                 print(f"Invalid command: {command}")
 
