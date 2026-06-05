@@ -7,6 +7,7 @@ from Assets import KI_Chatbot
 
 class Premium:
     def __init__(self):
+        #self.history = []
         self.nm = Notes.NotesManager()
         self.ki = KI_Chatbot.Ki_Chatbot()
         self.commandos = {
@@ -70,6 +71,7 @@ class Premium:
                     continue
 
                 self.commandos[commando]["function"]()
+                #self.history.append(commando)
             except KeyError:
                 print(f"Invalid command: {commando}")
 
