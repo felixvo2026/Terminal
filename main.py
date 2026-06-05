@@ -145,6 +145,9 @@ class PasswordManager:
             if not is_admin:
                 print("Acess denied")
                 return
+            elif not self.check_password(password, self.passwords[username]["password"]):
+                print("Access denied")
+                return
             else:
                 delete_user = input("Which User do you want do delete: ").strip()
                 if delete_user not in self.passwords:
@@ -224,9 +227,6 @@ class Main:
         if not self.history:
             print("No commands available")
             return
-        if self.history[-1] == "last":
-            print("Not possible")
-            return
         self.commands[self.history[-1]]["function"]()
 
     def Exit(self):
@@ -248,10 +248,12 @@ class Main:
             try:
                 if command == "ccal":
                     Calculator.Calculator()
+                    self.history.append(command)
                     continue
 
                 self.commands[command]["function"]()
-                self.history.append(command)
+                if command != "last":
+                    self.history.append(command)
             except KeyError:
                 print(f"Invalid command: {command}")
 
