@@ -133,8 +133,39 @@ class PasswordManager:
         except Exception as e:
             print(f"Error: {e}")
 
+    def user_delete(self):
+        username = input("Username: ").strip()
+        password = input("Password: ").strip()
+        try:
+            if username not in self.passwords:
+                print("Access denied!")
+                return
+            is_admin = self.passwords[username]["role"] == "admin"
+
+            if not is_admin:
+                if not self.check_password(password, self.passwords[username]["password"]):
+                    print("Access denied")
+                    return
+                else:
+                    print("Acess denied")
+                    return
+            else:
+                delete_user = input("Which User do you want do delete: ").strip()
+                if delete_user not in self.passwords:
+                    print("User not found")
+                    return
+                else:
+                    del self.passwords[delete_user]
+                    self.save_passwords()
+                    print(f"User {delete_user} deleted successfully")
+
+        except Exception as e:
+            print(f"Error: {e}")
+
+
 class Main:
     def __init__(self):
+        #self.history = []
         self.pm = PasswordManager()
         self.commands = {
             "exit": {
@@ -172,9 +203,19 @@ class Main:
             "time": {
                 "function": self.ShowTime,
                 "description": "Show time"
+            },
+            #"last": {
+                #"function": self.last,
+                #"description": "Last command"
+            #}
+            "del_user": {
+                "function": self.pm.user_delete,
+                "description": "Delete user"
             }
         }
 
+    #def last(self):
+        #print("Last command:", self.history[:-1])
     def Exit(self):
         print("Program is terminating...")
         quit()
@@ -197,6 +238,7 @@ class Main:
                     continue
 
                 self.commands[command]["function"]()
+                #
             except KeyError:
                 print(f"Invalid command: {command}")
 
@@ -204,4 +246,4 @@ class Main:
 main = Main()
 main.run()
 
-#Admin mit User löschen, Passwort ändern
+#Admin mit User löschen, history
