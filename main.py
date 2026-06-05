@@ -184,15 +184,15 @@ class Main:
                 "function": self.pm.register,
                 "description": "Register"
             },
-            "admin_register": {
+            "adminregister": {
                 "function": self.pm.admin_register,
                 "description": "Admin register"
             },
-            "admin_login": {
+            "adminlogin": {
                 "function": self.pm.admin_login,
                 "description": "Admin login"
             },
-            "change_password": {
+            "changepassword": {
                 "function": self.pm.change_password,
                 "description": "Change password"
             },
@@ -200,18 +200,35 @@ class Main:
                 "function": self.ShowTime,
                 "description": "Show time"
             },
-            "last": {
-                "function": self.last,
+            "printlast": {
+                "function": self.printlast,
                 "description": "Last command"
             },
-            "del_user": {
+            "deluser": {
                 "function": self.pm.user_delete,
                 "description": "Delete user"
+            },
+            "last": {
+                "function": self.last,
+                "description": " Do last command"
             }
         }
 
-    def last(self):
+    def printlast(self):
+        if not self.history:
+            print("No commands available")
+            return
         print("Last command:", self.history[-1])
+
+    def last(self):
+        if not self.history:
+            print("No commands available")
+            return
+        if self.history[-1] == "last":
+            print("Not possible")
+            return
+        self.commands[self.history[-1]]["function"]()
+
     def Exit(self):
         print("Program is terminating...")
         quit()
@@ -242,4 +259,3 @@ class Main:
 main = Main()
 main.run()
 
-#Admin mit User löschen, history
