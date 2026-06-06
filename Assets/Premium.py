@@ -6,9 +6,10 @@ from Assets import Notes
 from Assets import KI_Chatbot
 
 class Premium:
-    def __init__(self):
+    def __init__(self, username):
+        self.current_user = username
         #self.history = []
-        self.nm = Notes.NotesManager()
+        self.nm = Notes.NotesManager(self.current_user)
         self.ki = KI_Chatbot.Ki_Chatbot()
         self.commandos = {
             "exit": {
@@ -70,8 +71,11 @@ class Premium:
                     Calculator.Calculator()
                     continue
 
-                self.commandos[commando]["function"]()
-                #self.history.append(commando)
+                result = self.commandos[commando]["function"]()
+
+                if result == "logout":
+                    break
+
             except KeyError:
                 print(f"Invalid command: {commando}")
 
@@ -80,6 +84,9 @@ class Premium:
         quit()
 
     def help(self):
+        print(f"Logged in as: {self.current_user}")
+        print()
+
         for c in self.commandos:
             print(f'-{c}: {self.commandos[c]["description"]}')
 
@@ -90,7 +97,7 @@ class Premium:
 
     def logout(self):
         print("You have logged out")
-        quit()
+        return "logout"
 
     def changedir(self):
         try:

@@ -1,5 +1,4 @@
 import json
-import atexit
 
 class Note:
     def __init__(self, title, text):
@@ -10,21 +9,33 @@ class Note:
         notes[self.title] = self.text
 
 class NotesManager:
-    def __init__(self):
-        self.notes = self.load_notes()
+    def __init__(self, username):
+        self.username = username
+        self.user = self.load_notes()
+        self.notes = self.user[username]["notes"]
 
     def load_notes(self):
         try:
-            with open("Json-Daten/notes.json", "r", encoding="utf-8") as file:
-                return json.load(file)
+            with open("Json-Daten/users.json", "r", encoding="utf-8") as file:
+                content = file.read().strip()
+
+                if not content:
+                    return {}
+
+                return json.loads(content)
+
         except FileNotFoundError:
             return {}
 
+        except json.JSONDecodeError:
+            print("⚠️ users.json ist beschädigt")
+            return {}
+
     def save_notes(self):
-        with open("Json-Daten/notes.json", "w", encoding="utf-8") as file:
-            json.dump(self.notes, file, indent=4, ensure_ascii=False)
-        with open("Backup/Json-Daten/notes.json", "w", encoding="utf-8") as file:
-            json.dump(self.notes, file, indent=4, ensure_ascii=False)
+        self.user[self.username]["notes"] = self.notes
+
+        with open("Json-Daten/users.json", "w", encoding="utf-8") as file:
+            json.dump(self.user, file, indent=4, ensure_ascii=False)
 
     def NotesAdd(self):
         title = input("title: ")

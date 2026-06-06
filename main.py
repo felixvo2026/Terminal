@@ -5,22 +5,20 @@ from Assets import Calculator
 from Assets import Premium
 
 
-class PasswordManager:
+class JsonManager:
     def __init__(self):
         self.passwords = self.load_passwords()
-        self.premium = Premium.Premium()
+        #self.premium = None
 
     def load_passwords(self):
         try:
-            with open("Json-Daten/password.json", "r", encoding="utf-8") as file:
+            with open("Json-Daten/users.json", "r", encoding="utf-8") as file:
                 return json.load(file)
         except FileNotFoundError:
             return {}
 
     def save_passwords(self):
-        with open("Json-Daten/password.json", "w", encoding="utf-8") as file:
-            json.dump(self.passwords, file, indent=4, ensure_ascii=False)
-        with open("Backup/Json-Daten/password.json", "w", encoding="utf-8") as file:
+        with open("Json-Daten/users.json", "w", encoding="utf-8") as file:
             json.dump(self.passwords, file, indent=4, ensure_ascii=False)
 
     def hash_password(self, password):
@@ -37,25 +35,30 @@ class PasswordManager:
 
     def register(self):
         username = input("Username: ").strip()
-        #breakpoint()
+
         if not username:
             print("❌ Username darf nicht leer sein!")
-            return
+            return None
 
         if username in self.passwords:
             print("❌ Benutzer existiert bereits.")
-            return
+            return None
 
         password = input("Password: ").strip()
 
         hashed_password = self.hash_password(password)
+
         self.passwords[username] = {
-            "password" : hashed_password,
-            "role" : "user"}
+            "password": hashed_password,
+            "role": "user",
+            "notes": {}
+        }
+
         self.save_passwords()
+
         print("✅ Registrierung erfolgreich!")
-        while True:
-            self.premium.run()
+
+        return username
 
     def login(self):
         username = input("Username: ").strip()
@@ -63,53 +66,66 @@ class PasswordManager:
 
         if username not in self.passwords:
             print("❌ Benutzer nicht gefunden!")
-            return
+            return None
 
         if self.check_password(password, self.passwords[username]["password"]):
             print("✅ Login erfolgreich!")
-            while True:
-                self.premium.run()
-        else:
-            print("❌ Falscher Benutzername oder Passwort.")
+            return username
+
+        print("❌ Falscher Benutzername oder Passwort.")
+        return None
 
     def admin_register(self):
         username = input("Username: ").strip()
 
         if not username:
             print("❌ Username darf nicht leer sein!")
-            return
+            return None
 
         if username in self.passwords:
             print("❌ Benutzer existiert bereits.")
-            return
+            return None
 
         password = input("Password: ").strip()
         admin_password = input("Admin Password: ").strip()
-        if admin_password == "f  FTTerminal":
-            hashed_password = self.hash_password(password)
-            self.passwords[username] = {
-                "password": hashed_password,
-                "role": "admin"}
-            self.save_passwords()
-            print("✅ Registrierung erfolgreich!")
-            while True:
-                self.premium.run()
+
+        if admin_password != "f  FTTerminal":
+            print("Wrong admin password")
+            return None
+
+        hashed_password = self.hash_password(password)
+
+        self.passwords[username] = {
+            "password": hashed_password,
+            "role": "admin",
+            "notes": {}
+        }
+
+        self.save_passwords()
+
+        print("✅ Registrierung erfolgreich!")
+
+        return username
 
     def admin_login(self):
         username = input("Username: ").strip()
         password = input("Password: ").strip()
+
         try:
             if self.passwords[username]["role"] != "admin":
                 print("Access denied")
-                return
+                return None
+
             if self.check_password(password, self.passwords[username]["password"]):
                 print("✅ Login erfolgreich!")
-                while True:
-                    self.premium.run()
-            else:
-                print("❌ Falscher Benutzername oder Passwort.")
+                return username
+
+            print("❌ Falscher Benutzername oder Passwort.")
+            return None
+
         except Exception as e:
             print(f"Error: {e}")
+            return None
 
     def change_password(self):
         username = input("Username: ").strip()
@@ -167,8 +183,9 @@ class PasswordManager:
 
 class Main:
     def __init__(self):
+        self.current_user = None
         self.history = []
-        self.pm = PasswordManager()
+        self.m = JsonManager()
         self.commands = {
             "exit": {
                 "function": self.Exit,
@@ -183,23 +200,23 @@ class Main:
                 "description": "Calculator"
             },
             "login": {
-                "function": self.pm.login,
+                "function": self.m.login,
                 "description": "Login"
             },
             "register": {
-                "function": self.pm.register,
+                "function": self.m.register,
                 "description": "Register"
             },
             "adminregister": {
-                "function": self.pm.admin_register,
+                "function": self.m.admin_register,
                 "description": "Admin register"
             },
             "adminlogin": {
-                "function": self.pm.admin_login,
+                "function": self.m.admin_login,
                 "description": "Admin login"
             },
             "changepassword": {
-                "function": self.pm.change_password,
+                "function": self.m.change_password,
                 "description": "Change password"
             },
             "time": {
@@ -211,7 +228,7 @@ class Main:
                 "description": "Last command"
             },
             "deluser": {
-                "function": self.pm.user_delete,
+                "function": self.m.user_delete,
                 "description": "Delete user"
             },
             "last": {
@@ -257,14 +274,40 @@ class Main:
                     self.history.append(command)
                     continue
 
+                if command == "login":
+                    user = self.m.login()
+
+                elif command == "adminlogin":
+                    user = self.m.admin_login()
+
+                elif command == "register":
+                    user = self.m.register()
+
+                elif command == "adminregister":
+                    user = self.m.admin_register()
+
+                else:
+                    user = None
+
+                if user:
+                    self.current_user = user
+
+                    premium = Premium.Premium(self.current_user)
+                    premium.run()
+
+                    self.current_user = None
+
+                    continue
+
                 self.commands[command]["function"]()
                 if command != "last":
                     self.history.append(command)
+
+                if len(self.history) > 100:
+                    self.history.pop(0)
+
             except KeyError:
                 print(f"Invalid command: {command}")
 
-
 main = Main()
 main.run()
-
-# current User und Verbesserung von logout
