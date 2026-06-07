@@ -5,5 +5,12 @@
         "notes": {
             "1": "python"
         }
+    },
+    "_": {
+        "password": "$2b$12$nUGVeAf.jvK/4EmOeyn1xuySE1DURtn87XPgHXs1eI3KginT/03Ze",
+        "role": "admin",
+        "notes": {
+            "1": "Admin"
+        }
     }
 }
