@@ -5,7 +5,7 @@ Ein professionelles Terminal-Programm mit OOP, Sicherheit & mehrsprachigem Chatb
 ## ✨ Features
 
 - 🔐 **Sichere Authentifizierung** (bcrypt Hashing)
-- 📝 **Notizen-Manager** (JSON Speicherung + Backup)
+- 📝 **Notizen-Manager** (JSON Speicherung mit eigenen Notizen)
 - 🤖 **Multilingual Chatbot** (Deutsch & English)
 - 🧮 **Calculator** (mit Sicherheit)
 - 📁 **File Management** (cd, ls, pwd)
@@ -16,7 +16,7 @@ Ein professionelles Terminal-Programm mit OOP, Sicherheit & mehrsprachigem Chatb
 - **Language:** Python 3.10+
 - **Security:** bcrypt Password Hashing
 - **Architecture:** Object-Oriented Programming (OOP)
-- **Data Storage:** JSON mit automatischen Backups
+- **Data Storage:** JSON 
 
 ## 🏗️ Architektur
 Code
@@ -30,7 +30,7 @@ Terminal/
 └── Json-Daten/         
 
 ## 🔒 Sicherheit
-✅ bcrypt Password Hashing - Passwörter sind NICHT im Klartext gespeichert ✅ Automatische Backups - Daten sind doppelt gespeichert ✅ Salt-basiertes Hashing - Jedes Passwort hat eigenen Salt
+✅ bcrypt Password Hashing - Passwörter sind NICHT im Klartext gespeichert ✅ Salt-basiertes Hashing - Jedes Passwort hat eigenen Salt
 
 📚 Was ich gelernt habe
 Object-Oriented Programming (OOP)
