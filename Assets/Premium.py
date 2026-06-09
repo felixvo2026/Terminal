@@ -59,7 +59,12 @@ class Premium:
             "fftchange": {
                 "function": self.changedir,
                 "description": "Change the current working directory"
+            },
+            "current": {
+                "function": self.current,
+                "description": "Get current user"
             }
+
         }
 
     def run(self):
@@ -111,4 +116,7 @@ class Premium:
 
     def listdir(self):
         print(os.listdir())
+
+    def current(self):
+        print(self.current_user)
 

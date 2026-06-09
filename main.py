@@ -234,6 +234,10 @@ class Main:
             "last": {
                 "function": self.last,
                 "description": " Do last command"
+            },
+            "current": {
+                "function": self.current,
+                "description": "Get current user"
             }
         }
 
@@ -264,6 +268,9 @@ class Main:
         now = time.localtime()
         print(f"date: {now.tm_mday}.{now.tm_mon}.{now.tm_year}")
         print(f"time: {now.tm_hour}:{now.tm_min}:{now.tm_sec}")
+
+    def current(self):
+        print(self.current_user)
 
     def run(self):
         while True:
