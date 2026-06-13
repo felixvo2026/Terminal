@@ -21,6 +21,7 @@ Ein professionelles Terminal-Programm mit OOP, Sicherheit & mehrsprachigem Chatb
 ## 🏗️ Architektur
 Code
 Terminal/
+
 ├── main.py             
 ├── Assets/
 │   ├── Notes.py        
