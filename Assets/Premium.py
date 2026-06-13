@@ -1,4 +1,4 @@
-#import json
+import sys
 import os
 import time
 from Assets import Calculator
@@ -86,7 +86,7 @@ class Premium:
 
     def Exit(self):
         print("Program is terminating...")
-        quit()
+        sys.exit()
 
     def help(self):
         print(f"Logged in as: {self.current_user}")

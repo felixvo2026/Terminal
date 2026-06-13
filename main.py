@@ -1,5 +1,6 @@
 import json
 import time
+import sys
 import bcrypt
 from Assets import Calculator
 from Assets import Premium
@@ -258,7 +259,7 @@ class Main:
 
     def Exit(self):
         print("Program is terminating...")
-        quit()
+        sys.exit()
 
     def help(self):
         for c in self.commands:
